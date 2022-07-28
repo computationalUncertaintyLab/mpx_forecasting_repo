@@ -1,0 +1,26 @@
+State,State Name,Cases,Range
+AZ,Arizona (AZ),1,1 to 2
+CA,California (CA),40,1 to 2
+CO,Colorado (CO),5,1 to 2
+DC,District of Columbia (DC),4,1 to 2
+FL,Florida (FL),16,1 to 2
+GA,Georgia (GA),5,1 to 2
+HI,Hawaii (HI),5,1 to 2
+IL,Illinois (IL),19,1 to 2
+IN,Indiana (IN),2,1 to 2
+MD,Maryland,3,1 to 2
+MA,Massachusetts,9,1 to 2
+MO,Missouri,2,1 to 2
+NV,Nevada,1,1 to 2
+NJ,New Jersey (NJ),1,1 to 2
+NY,New York (NY),22,1 to 2
+OH,Ohio (OH),1,1 to 2
+OK,Oklahoma (OK),2,1 to 2
+OR,Oregon (OR),1,1 to 2
+PA,Pennsylvania (PA),2,1 to 2
+RI,Rhode Island (RI),1,1 to 2
+TX,Texas (TX),4,1 to 2
+UT,Utah (UT),3,1 to 2
+VA,Virginia (VA),1,1 to 2
+WA,Washington (WA),4,1 to 2
+Non U.S. resident in the U.S.,International,2,1 to 2
