@@ -13,6 +13,7 @@ class model(object):
         self.data = data
         self.add_model_days()
         self.all_locations()
+        self.horizon = 28 #--28 day horizon
 
     def all_locations(self):
         self.all_locations = self.data.location.unique()
@@ -29,7 +30,9 @@ class model(object):
         self.comp_model = '''
         data {
            int N;
-           
+           int horizon;
+           int last_day;           
+
            vector [N] days;
            vector [N] cases;
         }
@@ -42,7 +45,13 @@ class model(object):
         model {
             for (n in 1:N){
                  cases[n] ~ normal( exp2(alpha+ beta*days[n]), sigma);
-            }  
+            }
+        }  
+        generated quantities {
+            vector[horizon] cases_new;
+            for (n in 1:horizon){
+               cases_new[n] = normal_rng( exp2(alpha+ beta*(last_day+horizon)) , sigma);
+            }
         }
         '''
     def forecast_location(self,location):
@@ -59,7 +68,10 @@ class model(object):
         self.reference_model_day = ref
         
         #--fit model
-        data = {"days": d[:,0] - ref,"cases":d[:,-1], "N": d.shape[0]  }
+        data = {"days": d[:,0] - ref,"cases":d[:,-1]
+                ,"last_day":max(d[:,0])
+                ,"N": d.shape[0]
+                ,"horizon":self.horizon}
         self.stan_model()
 
         posterior = stan.build(self.comp_model, data=data)
@@ -75,3 +87,6 @@ if __name__ == "__main__":
 
     for loc in mdl.all_locations:
         mdl.forecast_location(loc)
+
+        #--need to store forecasts
+    
