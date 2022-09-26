@@ -24,9 +24,9 @@ def produce_cut_point_dataset(d,horizon):
     d_cut__most_recent = d_cut.merge(users_and_times, on = ["user_id","question_id","time"]  )
 
     #--time horizon for these individual predictions
-    d_cut["horizon"] = horizon
+    d_cut__most_recent["horizon"] = horizon
 
-    return d_cut
+    return d_cut__most_recent
 
 if __name__ == "__main__":
 
@@ -74,4 +74,3 @@ if __name__ == "__main__":
         d = produce_cut_point_dataset(binary_predictions,week)
         all_horizons = all_horizons.append(d)
     all_horizons.to_csv("./data/binary_predictions/all_horizons_predictions.csv",index=False)
- 
