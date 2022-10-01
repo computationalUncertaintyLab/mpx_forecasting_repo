@@ -57,6 +57,29 @@ if __name__ == "__main__":
     for week in [1,2,3]:
         d = produce_cut_point_dataset(continuous_predictions,week)
         all_horizons = all_horizons.append(d)
+
+    #--from scaled value to values on the original scale
+    scale_params = pd.read_csv("./data/scaling_data.csv")
+    all_horizons = all_horizons.merge(scale_params, on = ["question_id"])
+    
+    def add_original_scale(row):
+        deriv_ratio = row["deriv_ratio"]
+        minvalue    = row["min"]
+        maxvalue    = row["max"]
+
+        numValues = 101 #THIS IS HARDCODED
+        
+        if deriv_ratio==1:
+            original_value = minvalue + (maxvalue - minvalue)*row.scaled_value
+        else:
+            exponent = np.log(deriv_ratio)
+            b = (maxvalue-minvalue)/(deriv_ratio-1.)
+            original_value = minvalue + b* np.exp( exponent*row.scaled_value)
+        return original_value
+        
+    all_horizons["original_value"] = all_horizons.apply(add_original_scale,1)
+        
+        
     all_horizons.to_csv("./data/continuous_predictions/all_horizons_predictions.csv",index=False)
     
     #--work on binary predictions
@@ -73,4 +96,6 @@ if __name__ == "__main__":
     for week in [1,2,3]:
         d = produce_cut_point_dataset(binary_predictions,week)
         all_horizons = all_horizons.append(d)
+    all_horizons["original_value"] = all_horizons["binary_prediction"]
+        
     all_horizons.to_csv("./data/binary_predictions/all_horizons_predictions.csv",index=False)
