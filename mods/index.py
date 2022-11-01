@@ -16,4 +16,7 @@ class index(object):
     def grab_ecdc_data(self):
         return self.grab("ecdc_data.csv")
 
+    def grab_cdc_and_ecdc_data(self):
+        return self.grab("mpx_cdc_and_ecdc.csv")
+
 
